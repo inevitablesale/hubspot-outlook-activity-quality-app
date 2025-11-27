@@ -29,9 +29,19 @@ dotenv.config();
 export function createApp(): Application {
   const app = express();
 
-  // Security middleware
+  // Security middleware with custom CSP for HubSpot CRM card compatibility
   app.use(helmet({
-    contentSecurityPolicy: false, // Disable for CRM card iframes
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "https://app.hubspot.com", "https://*.hubspot.com"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "https:"],
+        frameSrc: ["'self'", "https://app.hubspot.com", "https://*.hubspot.com"],
+        frameAncestors: ["'self'", "https://app.hubspot.com", "https://*.hubspot.com"],
+        connectSrc: ["'self'", "https://api.hubapi.com", "https://*.hubspot.com"],
+      },
+    },
   }));
   app.use(cors());
 

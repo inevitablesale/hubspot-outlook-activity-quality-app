@@ -9,7 +9,6 @@ import {
 } from '../types/analysis';
 
 const sentiment = new Sentiment();
-const tokenizer = new natural.WordTokenizer();
 const TfIdf = natural.TfIdf;
 
 /**
@@ -157,8 +156,6 @@ export class SentimentAnalysisService {
     tfidf.addDocument(text);
 
     const phrases: KeyPhrase[] = [];
-    // Note: tokens variable used for potential future enhancements
-    tokenizer.tokenize(text);
 
     // Get top terms by TF-IDF score
     const termScores: Array<{ term: string; score: number }> = [];
